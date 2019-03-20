@@ -31,8 +31,17 @@ def player_turn(p, target):
         got_dice = False
         while not got_dice:
             selected = input("\nPlease enter the dice you wish to select, separated by spaces: ")
-            chosen = [dice[int(i)-1][0] for i in selected.split(" ")]
-            chosen_nums = [dice[int(i)-1][1] for i in selected.split(" ")]
+            indices = [int(i)-1 for i in selected.split(" ")]
+            bad_vals = False
+            for i in indices:
+                if i < 0 or i > len(dice)-1:
+                    bad_vals = True
+                    break
+            if bad_vals:
+                print("Invalid selection!")
+                continue
+            chosen = [dice[i][0] for i in indices]
+            chosen_nums = [dice[i][1] for i in indices]
             if calculate_score(chosen_nums) == 0:
                 print("Invalid selection!")
             else:
